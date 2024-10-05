@@ -53,12 +53,12 @@ def save_file(name, data):
 
 def make_files(D, j):
     candidates = create_candidates(D)
-    #save_file(candidate_file_name(D), candidates)
-    print(candidate_file_name(D, j))
+    save_file(candidate_file_name(D, j), candidates)
+    #print(candidate_file_name(D, j))
     for i in range(5):
         electorate, distances, o_list, r_max = create_voters(D, candidates)
-        #save_file(electorate_file_name(D, i), electorate)
-        print(electorate_file_name(D,i,j))
+        save_file(electorate_file_name(D, i, j), electorate)
+        #print(electorate_file_name(D,i,j))
 
 for D in range(2,9):
     for j in range(200):
