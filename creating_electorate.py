@@ -1,10 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-D = 2
 
-
-def create_candidates():
+def create_candidates(D):
     candidate_set = np.zeros((4,D))
 
     w = 1
@@ -23,7 +21,7 @@ def create_candidates():
 def euclidean_distance(voter, candidate):
     sum_sq = np.sum(np.square(voter - candidate))
     return np.sqrt(np.sqrt(sum_sq))
-def create_voters():
+def create_voters(D, candidates):
     electorate = np.zeros((201, D))
     electorate[:, 0] = np.random.normal(0,6,(1,201))
     for j in range(201):
@@ -31,7 +29,6 @@ def create_voters():
             electorate[j,(i+1)] = np.random.normal(0,1.4) + electorate[j,i]
 
     distances = np.zeros((201, 4))
-    candidates = create_candidates()
     for i in range(201):
         for j in range(4):
             distances[i, j] = euclidean_distance(electorate[i], candidates[j])
@@ -41,6 +38,29 @@ def create_voters():
     r_max = np.mean(distances, axis = 1)
 
 
-    return electorate, distances, o_list, candidates, r_max
+    return electorate, distances, o_list, r_max
 
-electorate, distances, o_list, candidates, r_max  = create_voters()
+#these functions generate strings for each file name in a consistent way
+def candidate_file_name(D, j):
+    return "candidates_D" + str(D) + "_C" + str(j).zfill(3) + ".csv"
+
+def electorate_file_name(D, i, j):
+    return "electorate_D" + str(D) + "_C" + str(j).zfill(3) + "_E" + str(i) + "csv"
+
+
+def save_file(name, data):
+        np.savetxt(name, data, delimiter=",", fmt='%f')
+
+def make_files(D, j):
+    candidates = create_candidates(D)
+    #save_file(candidate_file_name(D), candidates)
+    print(candidate_file_name(D, j))
+    for i in range(5):
+        electorate, distances, o_list, r_max = create_voters(D, candidates)
+        #save_file(electorate_file_name(D, i), electorate)
+        print(electorate_file_name(D,i,j))
+
+for D in range(2,9):
+    for j in range(200):
+        make_files(D, j)
+        print ("-------------------------")
