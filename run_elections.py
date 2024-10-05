@@ -217,42 +217,6 @@ for j in range(num_candidate_sets):
         results[:, counter] = input
         counter += 1
 
-
-#-------------------------------------------
-#-------------outputting data---------------
-#-------------------------------------------
-# Assuming data is stored in a NumPy array with 7 rows and 1 column per observation
-
-# Calculate global x and y limits
-xmin = results.min()  # Minimum value across all datasets
-xmax = results.max()  # Maximum value across all datasets
-
-# Create a figure and subplots (2 rows, 4 columns)
-fig, axes = plt.subplots(2, 4, figsize=(16, 8))
-
-# Flatten the axes array to make it easier to iterate
-axes = axes.flatten()
-
-# Determine the maximum y-limit for consistent y-axis scaling
-ymax = 0
-for i in range(7):
-    counts, _ = np.histogram(data[i, :], bins=30)
-    if counts.max() > ymax:
-        ymax = counts.max()
-
-# Plot each histogram on a different subplot with constant xlim and ylim
-for i in range(7):
-    axes[i].hist(results[i, :], bins=30)
-    axes[i].set_title(["Plurality", "Plurality Runoff", "Borda", "Approval", 
-                       "Approval Runoff", "Hare", "Coombs"][i])
-    axes[i].set_xlim([xmin, xmax])  # Set constant x-axis limits
-    axes[i].set_ylim([0, ymax])     # Set constant y-axis limits
-
-# Hide the last subplot since there are only 7 datasets
-axes[7].axis('off')
-
-# Adjust layout to avoid overlap
-plt.tight_layout()
-
-# Show all the histograms
-plt.show()
+#saving the data in a csv file
+np.savetxt('election_results.csv', results, delimiter=",", fmt='%f')
+print("mission accomplished")
