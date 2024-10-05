@@ -45,7 +45,7 @@ def candidate_file_name(D, j):
     return "candidates_D" + str(D) + "_C" + str(j).zfill(3) + ".csv"
 
 def electorate_file_name(D, i, j):
-    return "electorate_D" + str(D) + "_C" + str(j).zfill(3) + "_E" + str(i) + "csv"
+    return "electorate_D" + str(D) + "_C" + str(j).zfill(3) + "_E" + str(i) + ".csv"
 
 
 def save_file(name, data):
